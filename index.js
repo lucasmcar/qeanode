@@ -1,6 +1,12 @@
 const express = require('express');
 const app = express();
 
+//Importação para criar notificação
+const http = require('http');
+const server = http.createServer(app);
+const {Server} = require('socket.io');
+const io = new Server(server);
+
 //importa a conexao com o banco
 const con = require('./database/database');
 const Pergunta = require('./database/Model/Pergunta');
@@ -11,7 +17,7 @@ con
     .then(() => { console.log('Conexão realizada com sucesso'); })
     .catch((msgErro) =>{ console.log('Não foi possível conectar'); })
 
-
+//usar ejs como view engine
 app.set('view engine', 'ejs');
 
 //Carrega arquivos css, js ,imagem
@@ -88,7 +94,7 @@ app.get('/pergunta/:id', (req, res) => {
 });
 
 
-app.listen(4000, ()=>{
+server.listen(4000, ()=>{
     console.log("App rodando");
 });
 
